@@ -38,12 +38,12 @@ const spaceSchema = new mongoose.Schema(
 					default: 0
 				},
 				price: {
-                    type: Number,
-                    duration : {
-                        type: String,
-                        enum: ['day', 'month', 'year']
-                    }
-                },
+					type: Number
+				},
+				duration: {
+					type: String,
+					enum: [ 'hour', 'day', 'month', 'year' ]
+				},
 				capacity: Number
 			},
 			desk: {
@@ -52,12 +52,12 @@ const spaceSchema = new mongoose.Schema(
 					default: 0
 				},
 				price: {
-                    type: Number,
-                    duration : {
-                        type: String,
-                        enum: ['day', 'month', 'year']
-                    }
-                },
+					type: Number
+				},
+				duration: {
+					type: String,
+					enum: [ 'hour', 'day', 'month', 'year' ]
+				},
 				capacity: Number
 			},
 			meetingRoom: {
@@ -66,12 +66,26 @@ const spaceSchema = new mongoose.Schema(
 					default: 0
 				},
 				price: {
-                    type: Number,
-                    duration : {
-                        type: String,
-                        enum: ['day', 'month', 'year']
-                    }
-                },
+					type: Number
+				},
+				duration: {
+					type: String,
+					enum: [ 'hour', 'day', 'month', 'year' ]
+				},
+				capacity: Number
+			},
+			others: {
+				quantity: {
+					type: Number,
+					default: 0
+				},
+				price: {
+					type: Number
+				},
+				duration: {
+					type: String,
+					enum: [ 'hour', 'day', 'month', 'year' ]
+				},
 				capacity: Number
 			}
 		}
@@ -83,14 +97,12 @@ const spaceSchema = new mongoose.Schema(
 			transform: (doc, ret) => {
 				ret.id = doc._id;
 				delete ret._id;
-                delete ret.__v;
-                return ret;
+				delete ret.__v;
+				return ret;
 			}
 		}
 	}
 );
-
-
 
 const Space = new mongoose.model('Space', spaceSchema);
 
