@@ -1,7 +1,17 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+const DNI_PATTERN = /^[0-9]{8,8}[A-Za-z]$/
 const SALT_WORK_FACTOR = 10;
+
+const generateRandomToken = () => {
+  const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let token = '';
+  for (let i = 0; i < 25; i++) {
+    token += characters[Math.floor(Math.random() * characters.length)];
+  }
+  return token;
+}
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -18,13 +28,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     match: [EMAIL_PATTERN, 'Email is invalid']
   },
-  username: {
-    type: String,
-    required: [true, 'Username is required'],
-    unique: true,
-    trim: true,
-    lowercase: true
-  },
   password: {
     type: String,
     required: [true, 'Password is required'],
@@ -33,17 +36,26 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
-  bio: {
-    type: String
+  number: {
+    type: Number
   },
-  validated: {
-    type: Boolean,
-    default: true
+  nif: {
+    type: String,
+    match: [DNI_PATTERN, 'Dni is invalid']
+  },
+  activation: {
+    active: {
+      type: Boolean,
+      default: false
+    },
+    token: {
+      type: String,
+      default: generateRandomToken
+    }
   },
   social: {
     google: String,
     facebook: String,
-    slack: String
   },
 }, {
   timestamps: true,
@@ -80,13 +92,6 @@ userSchema.pre('save', function (next) {
 userSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
-
-userSchema.virtual('tweets', {
-  ref: 'Tweet',
-  localField: '_id',
-  foreignField: 'user',
-  justOne: false,
-});
 
 const User = mongoose.model('User', userSchema);
 
