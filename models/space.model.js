@@ -25,6 +25,7 @@ const spaceSchema = new mongoose.Schema(
 			coordinates: [ Number ],
 			direction: String
 		},
+		image: [ String ],
 		services: {
 			type: [ String ]
 		},

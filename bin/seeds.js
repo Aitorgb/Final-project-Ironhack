@@ -5,7 +5,7 @@ const Space = require('../models/space.model');
 const Comment = require('../models/comment.model');
 const Review = require('../models/review.model');
 
-const img = [
+const imageCoworking = [
 	[
 		'https://res.cloudinary.com/dpzqosy5b/image/upload/v1603129792/Modulo%203/1/04-2_oaktpz.jpg',
 		'https://res.cloudinary.com/dpzqosy5b/image/upload/v1603129792/Modulo%203/1/06_1_r8lh8g.jpg',
@@ -136,7 +136,8 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 			.save()
 			.then((user) => {
 				console.log(user.email);
-				userIds.push(user._id);
+        userIds.push(user._id);
+        
 
 				for (let j = 0; j < 11; j++) {
 					const space = new Space({
@@ -145,78 +146,74 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 						description: faker.lorem.paragraph(),
 						location: {
 							coordinates: [ faker.address.latitude(), faker.address.longitude() ],
-							direction: faker.address.direction()
+							direction: faker.address.city(0)
 						},
-						image: img[j],
+						image: imageCoworking[j],
 						type: {
 							office: {
-								quantity: randomNumber,
-								price: randomNumber * randomNumber,
-								duration: time[randomNumber],
-								capacity: randomNumber * 5
+								quantity: randomNumber(),
+								price: randomNumber() * 20,
+								duration: time[randomNumber()],
+								capacity: randomNumber() * 5
 							},
 							desk: {
-								quantity: randomNumber,
-								price: randomNumber * randomNumber,
-								duration: time[randomNumber],
+								quantity: randomNumber(),
+								price: randomNumber() * 5,
+								duration: time[randomNumber()],
 								capacity: 2
 							},
 							meetingRoom: {
-								quantity: randomNumber,
-								price: randomNumber * randomNumber,
-								duration: time[randomNumber],
-								capacity: randomNumber
+								quantity: randomNumber(),
+								price: randomNumber() * 10,
+								duration: time[randomNumber()],
+								capacity: randomNumber()
 							}
-            },
-            services: services.sort(() => Math.random() - Math.random()).slice(0, randomNumber * randomNumber),
+						},
+						services: services
+							.sort(() => Math.random() - Math.random())
+							.slice(0, randomNumber() * 5),
 						createdAt: faker.date.past()
 					});
+					console.log(space);
 
 					space
 						.save()
 						.then((space) => {
-    
-
-
-
-
 							for (let k = 0; k < 10; k++) {
 								const c = new Comment({
 									user: userIds[Math.floor(Math.random() * userIds.length)],
 									space: space._id,
 									text: faker.lorem.paragraph(),
 									createdAt: faker.date.past()
-                });
-                
-                const booking = new Booking({
-                  owner: userIds[Math.floor(Math.random() * userIds.length)],
-                  user : userIds[Math.floor(Math.random() * userIds.length)],
-                  space : space._id,
-                  checkIn : faker.date.recent(),
-                  checkOut : faker.date.soon(checkIn),
-                  type:{
-                    office: {
-                      quantity: Math.floor(space.type.office.quantity * Math.random()),
-                      price : quantity * space.type.office.price
-                    },
-                    desk: {
-                      quantity: Math.floor(space.type.desk.quantity * Math.random()),
-                      price : quantity * space.type.desk.price
-                    },
-                    meetingRoom: {
-                      quantity: Math.floor(space.type.meetingRoom.quantity * Math.random()),
-                      price : quantity * space.type.meetingRoom.price
-                    }
-                  }
-                })
+								});
 
+								const booking = new Booking({
+									owner: userIds[Math.floor(Math.random() * userIds.length)],
+									user: userIds[Math.floor(Math.random() * userIds.length)],
+									space: space._id,
+									checkIn: faker.date.recent(),
+									checkOut: faker.date.recent(randomNumber() * -1),
+									type: {
+										office: {
+											quantity: Math.floor(space.type.office.quantity * Math.random())
+										},
+										desk: {
+											quantity: Math.floor(space.type.desk.quantity * Math.random())
+										},
+										meetingRoom: {
+											quantity: Math.floor(space.type.meetingRoom.quantity * Math.random())
+										}
+									}
+								});
+								const bookingType = booking.type;
+
+								bookingType.office.price = bookingType.office.quantity * space.type.office.price;
+								bookingType.desk.price = bookingType.desk.quantity * space.type.desk.price;
+								bookingType.meetingRoom.price = bookingType.meetingRoom.quantity * space.type.meetingRoom.price;
+						
+								booking.save();
 								c.save();
-              }
-              
-
-
-
-
+							}
 						})
 						.catch(console.error);
 				}
