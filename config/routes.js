@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddleware = require('../middlewares/auth.middleware')
 const commentControllers = require('../controllers/comment.controllers');
 const spaceController = require('../controllers/spaces.controllers')
+const chatController = require('../controllers/chat.controller')
 const upload = require('./cloudinary.config');
 
 // router.get('/tweets', authMiddleware.isAuthenticated, tweetsController.index)
@@ -23,10 +24,11 @@ router.delete('/space/:id/comments', authMiddleware.isAuthenticated, commentCont
 router.patch('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.editComment)
 
 
-
+router.get('/space/user', authMiddleware.isNotAuthenticated, spaceController.showUser)
 router.get('/space/:id', authMiddleware.isNotAuthenticated, spaceController.viewDetail)
 router.post('/space/new', authMiddleware.isAuthenticated, upload.array('images'), spaceController.newSpace)
 router.delete('/space/:id', authMiddleware.isAuthenticated, spaceController.deleteSpace)
+router.put('/space/:id', authMiddleware.isAuthenticated, spaceController.editSpace)
 
 
 
