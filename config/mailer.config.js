@@ -1,4 +1,6 @@
+const nodemailer = require('nodemailer');
 const user = process.env.NM_USER;
+
 
 const transport = nodemailer.createTransport(
     {
