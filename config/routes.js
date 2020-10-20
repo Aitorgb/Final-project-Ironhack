@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middlewares/auth.middleware')
 const upload = require('./cloudinary.config');
+const userController = require('../controllers/user.controller')
 
+router.get('/', authMiddleware.isNotAuthenticated, userController.baseroute)
+router.get('/login', authMiddleware.isNotAuthenticated, userController.login)
+router.post('/logout', authMiddleware.isAuthenticated, userController.logout)
 // router.get('/tweets', authMiddleware.isAuthenticated, tweetsController.index)
 // router.get('/tweets/:id', authMiddleware.isAuthenticated, tweetsController.show)
 // router.post('/tweets/:id/comments', authMiddleware.isAuthenticated, tweetsController.addComment)
