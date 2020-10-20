@@ -45,7 +45,6 @@ module.exports.createUser = (req, res, next) => {
   user.save()
     .then(user => {
       nodemailer.sendValidationEmail(user.email, user.activation.token, user.name);
-      res.json(user)
       res.status(200).json({
         message: 'Check your email for activation'
       })
@@ -69,19 +68,15 @@ module.exports.activateUser = (req, res, next) => {
         user.activation.active = true;
         user.save()
           .then(user => {
-            res.json(user)
             res.status(200).json({
+                user,
                 message: 'Your account has been activated, log in below!'
               })
           })
-        .catch(e => next)
+        .catch((error) => next(error))
       } else {
         throw createError(400, "Wrong credentials")
       }
     })
     .catch((error) => next(error))
-}
-
-module.exports.signup = (req, res, next) => {
-  res.json()
 }
