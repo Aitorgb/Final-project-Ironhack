@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Comment = require('../models/comment.model')
+const Reviews = require('../models/review.model')
 
 const spaceSchema = new mongoose.Schema(
 	{
@@ -104,6 +106,20 @@ const spaceSchema = new mongoose.Schema(
 		}
 	}
 );
+
+spaceSchema.virtual('comments', {
+	ref: 'Comment',
+	localField: '_id',
+	foreignField: 'space',
+	justOne: false
+});
+
+spaceSchema.virtual('reviews', {
+	ref: 'Review',
+	localField: '_id',
+	foreignField: 'space',
+	justOne: false
+});
 
 const Space = new mongoose.model('Space', spaceSchema);
 

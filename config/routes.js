@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middlewares/auth.middleware')
+const commentControllers = require('../controllers/comment.controllers');
+const spaceController = require('../controllers/spaces.controllers')
 const upload = require('./cloudinary.config');
 
 // router.get('/tweets', authMiddleware.isAuthenticated, tweetsController.index)
@@ -14,5 +16,18 @@ const upload = require('./cloudinary.config');
 
 // router.post('/login', authMiddleware.isNotAuthenticated, usersController.doLogin)
 // router.post('/logout', authMiddleware.isAuthenticated, usersController.logout)
+
+
+router.post('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.addComment)
+router.delete('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.deleteComment)
+router.patch('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.editComment)
+
+
+
+router.get('/space/:id', authMiddleware.isNotAuthenticated, spaceController.viewDetail)
+router.post('/space/new', authMiddleware.isAuthenticated, upload.array('images'), spaceController.newSpace)
+router.delete('/space/:id', authMiddleware.isAuthenticated, spaceController.deleteSpace)
+
+
 
 module.exports = router;
