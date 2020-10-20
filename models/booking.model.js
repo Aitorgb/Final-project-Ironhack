@@ -25,9 +25,43 @@ const bookingSchema = new mongoose.Schema(
 			type: Date,
 			required: true
 		},
-		duration: {
-			type: Number,
-			required: true
+        type: {
+			office: {
+				quantity: {
+					type: Number,
+					default: 0
+				},
+				price: {
+                    type: Number
+                },
+			},
+			desk: {
+				quantity: {
+					type: Number,
+					default: 0
+				},
+				price: {
+                    type: Number
+                }
+			},
+			meetingRoom: {
+				quantity: {
+					type: Number,
+					default: 0
+				},
+				price: {
+                    type: Number,
+                },
+            },
+            others: {
+				quantity: {
+					type: Number,
+					default: 0
+				},
+				price: {
+                    type: Number
+                },
+			}
 		}
 	},
 	{
