@@ -25,14 +25,14 @@ const bookingSchema = new mongoose.Schema(
 			type: Date,
 			required: true
 		},
-        type: {
+    type: {
 			office: {
 				quantity: {
 					type: Number,
 					default: 0
 				},
 				price: {
-                    type: Number
+          type: Number
                 },
 			},
 			desk: {
@@ -41,7 +41,7 @@ const bookingSchema = new mongoose.Schema(
 					default: 0
 				},
 				price: {
-                    type: Number
+          type: Number
                 }
 			},
 			meetingRoom: {
@@ -50,16 +50,16 @@ const bookingSchema = new mongoose.Schema(
 					default: 0
 				},
 				price: {
-                    type: Number,
+        	type: Number,
                 },
             },
-            others: {
+      others: {
 				quantity: {
 					type: Number,
 					default: 0
 				},
 				price: {
-                    type: Number
+          type: Number
                 },
 			}
 		}
@@ -71,6 +71,10 @@ const bookingSchema = new mongoose.Schema(
 		}
 	}
 );
+
+bookingSchema.methods.checkBooking = function (password) {
+  return bcrypt.compare(password, this.password);
+}
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

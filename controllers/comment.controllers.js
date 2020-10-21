@@ -6,7 +6,7 @@ module.exports.addComment = (req, res, next) => {
 
 	const comment = new Comment({
 		text: req.body.text,
-		user: req.currentUser.id,
+		user: req.session.user.id,
 		space: spaceId
 	});
 

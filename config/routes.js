@@ -28,6 +28,9 @@ router.post('/space/new', authMiddleware.isAuthenticated, upload.array('images')
 router.delete('/space/:id', authMiddleware.isAuthenticated, spaceController.deleteSpace)
 router.put('/space/:id', authMiddleware.isAuthenticated, spaceController.editSpace)
 
+router.post('/chat', authMiddleware.isAuthenticated, chatController.createChat)
+router.get('/chat/:id', authMiddleware.isAuthenticated, chatController.updateChat)
+
 
 
 module.exports = router;
