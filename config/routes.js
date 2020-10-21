@@ -6,6 +6,7 @@ const spaceController = require('../controllers/spaces.controllers')
 const chatController = require('../controllers/chat.controller')
 const upload = require('./cloudinary.config');
 const userController = require('../controllers/user.controller')
+const spaceController = require('../controllers/spaces.controller')
 
 router.get('/login', authMiddleware.isNotAuthenticated, userController.login)
 router.post('/logout', authMiddleware.isAuthenticated, userController.logout)
@@ -18,7 +19,7 @@ router.post('/logout', authMiddleware.isAuthenticated, userController.logout)
 
  router.post('/users', authMiddleware.isNotAuthenticated, upload.single('avatar'), userController.createUser)
  router.get('/activate/:token', authMiddleware.isNotAuthenticated, userController.activateUser);
-// router.get('/users/:username', authMiddleware.isAuthenticated, tweetsController.profile)
+ router.get('/users', authMiddleware.isAuthenticated, userController.showUser)
 
 // router.post('/login', authMiddleware.isNotAuthenticated, usersController.doLogin)
 // router.post('/logout', authMiddleware.isAuthenticated, usersController.logout)
