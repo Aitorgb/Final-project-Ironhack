@@ -82,3 +82,37 @@ module.exports.activateUser = (req, res, next) => {
     })
     .catch((error) => next(error))
 }
+
+module.exports.showUser = (req, res, next) => {
+	const userId = req.session.user
+
+	Space.find({user : userId})
+		.populate('user')
+		.populate('comments')
+		.populate('reviews')
+		.populate({
+            path: 'comments',
+            options: {
+                sort: {
+                  createdAt: -1
+                }
+            },
+			populate: {
+				path: 'user'
+			}
+		})
+		.populate({
+			path: 'reviews',
+			populate: {
+				path: 'user'
+			}
+		})
+		.then((space) => {
+			if (space) {
+				res.json(space);
+			} else {
+				throw createError(404, 'Space not found');
+			}
+		})
+		.catch(e => next(createError(400, e)));
+};
