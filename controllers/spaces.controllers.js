@@ -40,22 +40,25 @@ module.exports.viewDetail = (req, res, next) => {
 };
 
 module.exports.newSpace = (req, res, next) => {
-	const body = [ ...req.body ];
-    body.user = req.currentUser.id;
-    body.image = req.file ? req.file.url : undefined
+	console.log(req.files)
+	const body = req.body;
+    body.user = req.session.user.id;
+	body.image = req.files ? req.files.map(file => file.url) : undefined
+	
+	console.log(body)
 
-    Space.find({ title: body.title, 'location.coordinates': body.location.coordinates })
-        .then((space) => {
-		if (!space) {
-			const newSpace = new Space(body);
+    // Space.find({ title: body.title, 'location.coordinates': body.location.coordinates })
+    //     .then((space) => {
+	// 	if (!space) {
+	// 		const newSpace = new Space(body);
 
-            newSpace.save()
-                .then((tweet) => res.status(201).json(tweet))
-                .catch(e => next(createError(400, e)));
-		} else {
-            throw createError(401, 'Space is repeat')
-        }
-	});
+    //         newSpace.save()
+    //             .then((tweet) => res.status(201).json(tweet))
+    //             .catch(e => next(createError(400, e)));
+	// 	} else {
+    //         throw createError(401, 'Space is repeat')
+    //     }
+	// });
 };
 
 

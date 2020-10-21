@@ -1,6 +1,7 @@
 const createError = require("http-errors")
 const User = require("../models/user.model")
 const nodemailer = require('../config/mailer.config');
+const mongoose = require('mongoose');
 
 module.exports.baseroute = (req, res, next) => {
   res.json({ title: "Welcome!" });
@@ -14,12 +15,12 @@ module.exports.login = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        throw createError(400, "Wrong credentials");
+        throw createError(400, "wrong credentials invalid username or password");
       } else {
         return user.checkPassword(password)
         .then((match) => {
           if (!match) {
-            throw createError(400, "Wrong credentials");
+            throw createError(400, "wrong credentials invalid username or password");
           } else {
             req.session.user = user;
             res.json(user);
@@ -32,7 +33,7 @@ module.exports.login = (req, res, next) => {
 
 module.exports.logout = (req, res, next) => {
   req.session.destroy();
-  res.status(204).json();
+  res.status(200).json();
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -41,6 +42,7 @@ module.exports.createUser = (req, res, next) => {
     ...req.body,
     avatar: req.file ? req.file.path : undefined
   });
+  console.log(user)
 
   user.save()
     .then(user => {
