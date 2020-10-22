@@ -32,9 +32,10 @@ router.get ('/chat/:id', authMiddleware.isAuthenticated, chatController.getChat)
 router.post('/addMessage/:id', authMiddleware.isAuthenticated, chatController.sendMessage) // envia mensajes
 router.get('/chat', authMiddleware.isAuthenticated, chatController.updateChat) // dice todos los chat que tu tienes
 
-router.post('/review/:id', authMiddleware.isAuthenticated, reviewController.createReview) 
-router.delete('/review/:id', authMiddleware.isAuthenticated, reviewController.deleteReview) 
-router.patch('/review/:id', authMiddleware.isAuthenticated, reviewController.editReview) 
+router.get('space/:id/review', authMiddleware.isAuthenticated, reviewController.reviews) 
+router.post('space/:id/review', authMiddleware.isAuthenticated, reviewController.createReview) 
+router.delete('space/:id/review', authMiddleware.isAuthenticated, reviewController.deleteReview) 
+router.patch('space/:id/review', authMiddleware.isAuthenticated, reviewController.editReview) 
 
 
 
