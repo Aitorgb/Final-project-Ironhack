@@ -6,6 +6,7 @@ const spaceController = require('../controllers/spaces.controllers')
 const chatController = require('../controllers/chat.controller')
 const upload = require('./cloudinary.config');
 const userController = require('../controllers/user.controller')
+const reviewController = require('../controllers/review.controller')
 
 
 
@@ -31,6 +32,9 @@ router.get ('/chat/:id', authMiddleware.isAuthenticated, chatController.getChat)
 router.post('/addMessage/:id', authMiddleware.isAuthenticated, chatController.sendMessage) // envia mensajes
 router.get('/chat', authMiddleware.isAuthenticated, chatController.updateChat) // dice todos los chat que tu tienes
 
+router.post('/review/:id', authMiddleware.isAuthenticated, reviewController.createReview) 
+router.delete('/review/:id', authMiddleware.isAuthenticated, reviewController.deleteReview) 
+router.patch('/review/:id', authMiddleware.isAuthenticated, reviewController.editReview) 
 
 
 
