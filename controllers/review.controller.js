@@ -48,7 +48,7 @@ module.exports.editReview = (req, res, next) => {
     review: req.body
   }
 
-	Comment.findOne(params)
+	Review.findOne(params)
 		.then(review => {
 			review = req.body
 			review.save()
