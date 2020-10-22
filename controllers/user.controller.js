@@ -3,9 +3,6 @@ const User = require("../models/user.model")
 const nodemailer = require('../config/mailer.config');
 const mongoose = require('mongoose');
 
-module.exports.baseroute = (req, res, next) => {
-  res.json({ title: "Welcome!" });
-}
 
 module.exports.login = (req, res, next) => {
   const {email, password} = req.body
@@ -84,7 +81,7 @@ module.exports.activateUser = (req, res, next) => {
 }
 
 module.exports.showUser = (req, res, next) => {
-	const userId = req.session.user
+	const userId = req.params.id
 
 	Space.find({user : userId})
 		.populate('user')
