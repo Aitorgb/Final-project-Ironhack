@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const Comment = require('../models/comment.model');
 const Space = require('../models/space.model');
 const Review = require('../models/review.model')
+const Booking = require('../models/booking.model')
 
 
 
@@ -12,6 +13,7 @@ module.exports.viewDetail = (req, res, next) => {
 		.populate('user')
 		.populate('comments')
 		.populate('reviews')
+		.populate('bookings')
 		.populate({
             path: 'comments',
             options: {
@@ -40,25 +42,40 @@ module.exports.viewDetail = (req, res, next) => {
 };
 
 module.exports.newSpace = (req, res, next) => {
-	console.log(req.files)
-	const body = req.body;
+	let body = req.body;
     body.user = req.session.user.id;
 	body.image = req.files ? req.files.map(file => file.url) : undefined
+	body.location = {
+		coordinates : body.coordinates,
+		direction : body.direction
+	}
+	const type = ['office', 'desk', 'meetingRoom', 'others']
+
+	type.map(type => {
+		if (type in body) {
+			body[type] = {
+				quantity : body[type][0],
+				price : body[type][1],
+				duration : body[type][2],
+				capacity : body[type][3]
+			}
+		}
+	})
 	
-	console.log(body)
+	delete body.coordinates;
+	delete body.direction;
 
-    // Space.find({ title: body.title, 'location.coordinates': body.location.coordinates })
-    //     .then((space) => {
-	// 	if (!space) {
-	// 		const newSpace = new Space(body);
-
-    //         newSpace.save()
-    //             .then((tweet) => res.status(201).json(tweet))
-    //             .catch(e => next(createError(400, e)));
-	// 	} else {
-    //         throw createError(401, 'Space is repeat')
-    //     }
-	// });
+    Space.findOne({ title: body.title, 'location.coordinates': body.location.coordinates })
+        .then((space) => {
+		if (!space) {
+			const newSpace = new Space(body);
+            newSpace.save()
+                .then((space) => res.status(201).json(space))
+                .catch(e => next(createError(400, e)));
+		} else {
+            next(createError(400, 'Space is repeat'))
+        }
+	});
 };
 
 

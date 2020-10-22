@@ -29,7 +29,40 @@ const spaceSchema = new mongoose.Schema(
 		},
 		image: [ String ],
 		services: {
-			type: [ String ]
+			type: [ String ],
+			enum : [
+				'Gestion de agencias',
+				'Oficina Virtual',
+				'Recepción de emails',
+				'Sala de reuniones',
+				'Recepción',
+				'Pizarra/Flipchart',
+				'TV',
+				'Parking',
+				'Cacina',
+				'Catering',
+				'Aire Acondicionado',
+				'Domiciliación Fiscal',
+				'Intert + WIFI',
+				'Impresora',
+				'Equipo de sonido',
+				'Acceso 24/7',
+				'Gestión de eventos',
+				'Recepción de llamadas',
+				'Recepción paquetería',
+				'Secretaría',
+				'Impresora',
+				'Uso de Dirección',
+				'Niños permitidos',
+				'Coworking Visa',
+				'Café de cortesía',
+				'Fruta',
+				'Alarma',
+				'Domiciliación Social',
+				'Mascotas permitidas',
+				'Fotocopiadora',
+				'Escáner'
+			]
 		},
 		number: {
 			type: Number
@@ -109,6 +142,12 @@ const spaceSchema = new mongoose.Schema(
 
 spaceSchema.virtual('comments', {
 	ref: 'Comment',
+	localField: '_id',
+	foreignField: 'space',
+	justOne: false
+});
+spaceSchema.virtual('bookings', {
+	ref: 'Booking',
 	localField: '_id',
 	foreignField: 'space',
 	justOne: false

@@ -2,6 +2,7 @@ const createError = require("http-errors")
 const User = require("../models/user.model")
 const nodemailer = require('../config/mailer.config');
 const mongoose = require('mongoose');
+const Space = require('../models/space.model')
 
 
 module.exports.login = (req, res, next) => {

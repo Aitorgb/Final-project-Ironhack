@@ -16,16 +16,34 @@ module.exports.addComment = (req, res, next) => {
 module.exports.deleteComment = (req, res, next) => {
 	const spaceId = req.params.id;
 
-	Comment.findByIdAndDelete(spaceId).then(() => res.json()).catch(next);
+	Comment.findByIdAndDelete(spaceId)
+			.then((space) => {
+				if(space) {
+					res.status(200).json()
+				} else {
+					next(createError(403, "Comment not delete"))
+				}
+			}
+			).catch(next);
 };
 
 module.exports.editComment = (req, res, next) => {
-    const spaceId = req.params.id;
-    const { text } = req.body
+	const spaceId = req.params.id;
+	const userId = req.session.user.id
+	const { text } = req.body
+	console.log(userId)
 
-    Comment.findByIdAndUpdate(spaceId, { $set: { text: text }})
-        .then((comment) => res.json(comment))
-        .catch(next);
+	Comment.findOne({$and : [
+					{"_id" : spaceId },
+					{"user" : userId }
+	]})
+		.then(comment => {
+			comment.text = text
+			comment.save()
+				.then(comment => res.status(200).json(comment))
+				.catch(next)
+		})
+		.catch(next)
 };
 
 
