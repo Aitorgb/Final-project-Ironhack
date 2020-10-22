@@ -17,17 +17,20 @@ router.get('/user/:id', authMiddleware.isAuthenticated, userController.showUser)
 
 
 
-router.post('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.addComment)
-router.delete('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.deleteComment)
-router.patch('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.editComment)
+router.post('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.addComment)//id space
+router.delete('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.deleteComment) // id comment
+router.patch('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.editComment) // id comment
 
-router.get('/space/:id', authMiddleware.isNotAuthenticated, spaceController.viewDetail)
+router.get('/space/:id', spaceController.viewDetail)
 router.post('/space/new', authMiddleware.isAuthenticated, upload.array('images'), spaceController.newSpace)
 router.delete('/space/:id', authMiddleware.isAuthenticated, spaceController.deleteSpace)
-router.put('/space/:id', authMiddleware.isAuthenticated, spaceController.editSpace)
+router.patch('/space/:id', authMiddleware.isAuthenticated, spaceController.editSpace)
 
-router.post('/chat', authMiddleware.isAuthenticated, chatController.createChat)
-router.get('/chat/:id', authMiddleware.isAuthenticated, chatController.updateChat)
+router.post('/chat/:id', authMiddleware.isAuthenticated, chatController.createChat) //Crea chat
+router.get ('/chat/:id', authMiddleware.isAuthenticated, chatController.getChat) // te dice todos los mensajes de un chat en particular
+router.post('/addMessage/:id', authMiddleware.isAuthenticated, chatController.sendMessage) // envia mensajes
+router.get('/chat', authMiddleware.isAuthenticated, chatController.updateChat) // dice todos los chat que tu tienes
+
 
 
 

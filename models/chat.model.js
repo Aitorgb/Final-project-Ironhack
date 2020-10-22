@@ -27,6 +27,13 @@ const chatSchema = new mongoose.Schema(
       }
 );
 
+chatSchema.virtual('message', {
+	ref: 'Message',
+	localField: '_id',
+	foreignField: 'chat',
+	justOne: false
+});
+
 const Chat = mongoose.model('Chat', chatSchema);
 
 module.exports = Chat;
