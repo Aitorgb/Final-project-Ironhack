@@ -12,34 +12,33 @@ const bookingSchema = new mongoose.Schema(
 			ref: 'Space',
 			required: true
 		},
-		checkIn: {
-			type: Date,
+		dayShift: {
+			type: String,
+			enum: ['Mañana', 'Tarde', 'Todo el día']
+		},
+		dates: {
+			type: [Date],
 			required: true
 		},
-		checkOut: {
-			type: Date,
-			required: true
+		price: {
+			type: [Number],
 		},
 		type: {
 			office: {
 				type: Number,
 				default: 0,
-				price : Number
 			},
 			desk: {
 				type: Number,
 				default: 0,
-				price : Number
 			},
 			meetingRoom: {
 				type: Number,
 				default: 0,
-				price : Number
 			},
 			others: {
 				type: Number,
 				default: 0,
-				price : Number
 			}
 		}
 	},

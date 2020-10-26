@@ -7,6 +7,7 @@ const chatController = require('../controllers/chat.controller')
 const upload = require('./cloudinary.config');
 const userController = require('../controllers/user.controller')
 const reviewController = require('../controllers/review.controller')
+const bookingController = require('../controllers/booking.controller')
 
 
 
@@ -36,6 +37,12 @@ router.get('space/:id/review', authMiddleware.isAuthenticated, reviewController.
 router.post('space/:id/review', authMiddleware.isAuthenticated, reviewController.createReview) 
 router.delete('space/:id/review', authMiddleware.isAuthenticated, reviewController.deleteReview) 
 router.patch('space/:id/review', authMiddleware.isAuthenticated, reviewController.editReview) 
+
+
+router.get('booking/:id', authMiddleware.isAuthenticated, bookingController.booking) 
+router.post('booking/:id', authMiddleware.isAuthenticated, bookingController.newBooking) 
+router.delete('booking/:id', authMiddleware.isAuthenticated, bookingController.deleteBooking) 
+
 
 
 
