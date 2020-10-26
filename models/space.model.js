@@ -64,9 +64,9 @@ const spaceSchema = new mongoose.Schema(
 				'Escáner'
 			]
 		},
-		// number: {
-		// 	type: Number
-		// },
+		 number: {
+		 	type: Number
+		 },
 		schedule: {
 			monday : {
 				available: {
@@ -76,27 +76,27 @@ const spaceSchema = new mongoose.Schema(
 				}, 
 				checkInMorning: {
 					type: Number,
-					min: 00,
+					min: 0,
 					max: 23,
-					defaulf: 08
+					default: 8
 				},
 				checkInAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutMorning: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 20
+					default: 20
 				},
 			},
 			tuesday : {
@@ -109,25 +109,25 @@ const spaceSchema = new mongoose.Schema(
 					type: Number,
 					min: 00,
 					max: 23,
-					defaulf: 08
+					default: 08
 				},
 				checkInAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutMorning: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 20
+					default: 20
 				},
 			},
 			wednesday : {
@@ -140,25 +140,25 @@ const spaceSchema = new mongoose.Schema(
 					type: Number,
 					min: 00,
 					max: 23,
-					defaulf: 08
+					default: 08
 				},
 				checkInAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutMorning: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 20
+					default: 20
 				},
 			},
 			thursday : {
@@ -171,25 +171,25 @@ const spaceSchema = new mongoose.Schema(
 					type: Number,
 					min: 00,
 					max: 23,
-					defaulf: 08
+					default: 08
 				},
 				checkInAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutMorning: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 20
+					default: 20
 				},
 			},
 			friday : {
@@ -200,27 +200,27 @@ const spaceSchema = new mongoose.Schema(
 				},
 				checkInMorning: {
 					type: Number,
-					min: 00,
+					min: 0,
 					max: 23,
-					defaulf: 08
+					default: 08
 				},
 				checkInAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutMorning: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 14
+					default: 14
 				},
 				checkOutAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaulf: 20
+					default: 20
 				},
 			},
 			saturday : {
@@ -231,27 +231,27 @@ const spaceSchema = new mongoose.Schema(
 				},
 				checkInMorning: {
 					type: Number,
-					min: 00,
+					min: 0,
 					max: 23,
-					defaul: 08
+					default: 08
 				},
 				checkInAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaul: 14
+					default: 14
 				},
 				checkOutMorning: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaul: 14
+					default: 14
 				},
 				checkOutAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaul: 20
+					default: 20
 				},
 			},
 			sunday : {
@@ -262,34 +262,33 @@ const spaceSchema = new mongoose.Schema(
 				},
 				checkInMorning: {
 					type: Number,
-					min: 00,
+					min: 0,
 					max: 23,
-					defaul: 08
+					default: 08
 				},
 				checkInAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaul: 14
+					default: 14
 				},
 				checkOutMorning: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaul: 14
+					default: 14
 				},
 				checkOutAfternoon: {
 					type: Number,
 					min: 0,
 					max: 23,
-					defaul: 20
+					default: 20
 				},
 			},
 		},
 		price: {
 			type: [Number],
-			required: true,
-			enum: ['Mañana', 'Tarde', 'Todo el día']
+			required: true
 		},
 		bond: {
 			type: Number

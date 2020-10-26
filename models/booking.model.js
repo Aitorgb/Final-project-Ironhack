@@ -20,14 +20,6 @@ const bookingSchema = new mongoose.Schema(
 			type: [Date],
 			required: true
 		},
-		checkIn: {
-			type: Date,
-			required: true
-		},
-		checkOut: {
-			type: Date,
-			required: true
-		},
 		price: {
 			type: [Number],
 		},
