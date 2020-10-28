@@ -23,6 +23,8 @@ router.post('/space/:id/comments', authMiddleware.isAuthenticated, commentContro
 router.delete('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.deleteComment) // id comment
 router.patch('/space/:id/comments', authMiddleware.isAuthenticated, commentControllers.editComment) // id comment
 
+router.get('/spaces', spaceController.spacesAll)
+router.get('/spaces/:search', spaceController.searchSpace)
 router.get('/space/:id', spaceController.viewDetail)
 router.post('/space/new', authMiddleware.isAuthenticated, upload.array('images'), spaceController.newSpace)
 router.delete('/space/:id', authMiddleware.isAuthenticated, spaceController.deleteSpace)

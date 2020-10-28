@@ -5,6 +5,54 @@ const Review = require('../models/review.model')
 const Booking = require('../models/booking.model')
 
 
+module.exports.spacesAll = (req, res, next) => {
+
+	Space.find()
+		.populate('user')
+		.populate('reviews')
+		.populate({
+			path: 'reviews',
+			populate: {
+				path: 'user'
+			}
+		})
+		.then((spaces) => {
+			if (spaces) {
+				res.json(spaces);
+			} else {
+				throw createError(404, 'Space not found');
+			}
+		})
+		.catch(e => next(createError(400, e)));
+};
+
+module.exports.searchSpace = (req, res, next) => {
+	const criteria = new RegExp(req.params.search, "i")
+	
+	Space.find({"location.direction" : { $text: { $search: criteria }}})
+		.populate('user')
+		.populate('reviews')
+		.populate({
+			path: 'reviews',
+			populate: {
+				path: 'user'
+			}
+		})
+		.then((spaces) => {
+			if (spaces) {
+				res.json(spaces);
+			} else {
+				throw createError(404, 'Space not found');
+			}
+		})
+		.catch(e => next(createError(400, e)));
+};
+
+
+
+
+
+
 
 module.exports.viewDetail = (req, res, next) => {
 	const spaceId = req.params.id;
