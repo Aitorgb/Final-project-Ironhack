@@ -68,12 +68,15 @@ const spaceSchema = new mongoose.Schema(
 			type: Number
 		},
 		schedule: {
-			day: {
-				type: [ String ]
-			},
+			day: [
+				{
+					type: String,
+					enum: [ 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo' ]
+				}
+			],
 			available: {
 				type: String,
-				enum: [ 'Mañana', 'Tarde', 'Todo el día', 'No disponible' ]
+				enum: [ 'Mañana', 'Tarde', 'Todo el día' ]
 			},
 			checkInMorning: {
 				type: Number,
@@ -107,36 +110,16 @@ const spaceSchema = new mongoose.Schema(
 		bond: {
 			type: Number
 		},
+
 		type: {
-			office: {
-				quantity: {
-					type: Number,
-					default: 0
-				},
-				capacity: Number
-			},
-			desk: {
-				quantity: {
-					type: Number,
-					default: 0
-				},
-				capacity: Number
-			},
-			meetingRoom: {
-				quantity: {
-					type: Number,
-					default: 0
-				},
-				capacity: Number
-			},
-			others: {
-				quantity: {
-					type: Number,
-					default: 0
-				},
-				capacity: Number
-			}
-		}
+			type: [ String ],
+			enum: [ 'office', 'desk', 'meetingRoom' ]
+		},
+		quantity: {
+			type: Number,
+			default: 0
+		},
+		capacity: Number
 	},
 	{
 		timestamps: true,
