@@ -58,9 +58,9 @@ module.exports.editReview = (req, res, next) => {
 		.catch((e) => createError(400, e));
 };
 
-//Controlador para pedir todos las reviews de un usuario
-module.exports.reviews = (req, res, next) => {
-	Review.find(req.params.id)
+//Controlador para pedir todas las reviews de un usuario
+module.exports.userReviews = (req, res, next) => {
+	Review.find({user: req.params.id})
 		.then((reviews) => {
 			res.status(200).json(reviews);
 		})

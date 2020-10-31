@@ -16,6 +16,7 @@ router.post('/logout', authMiddleware.isAuthenticated, userController.logout)
 router.post('/users', authMiddleware.isNotAuthenticated, upload.single('avatar'), userController.createUser)
 router.get('/activate/:token', authMiddleware.isNotAuthenticated, userController.activateUser);
 router.get('/user/:id', authMiddleware.isAuthenticated, userController.showUser)
+router.get('/user/:id/review', reviewController.userReviews) 
 
 
 
@@ -35,7 +36,6 @@ router.get ('/chat/:id', authMiddleware.isAuthenticated, chatController.getChat)
 router.post('/addMessage/:id', authMiddleware.isAuthenticated, chatController.sendMessage) // envia mensajes
 router.get('/chat', authMiddleware.isAuthenticated, chatController.updateChat) // dice todos los chat que tu tienes
 
-router.get('space/:id/review', authMiddleware.isAuthenticated, reviewController.reviews) 
 router.post('space/:id/review', authMiddleware.isAuthenticated, reviewController.createReview) 
 router.delete('space/:id/review', authMiddleware.isAuthenticated, reviewController.deleteReview) 
 router.patch('space/:id/review', authMiddleware.isAuthenticated, reviewController.editReview) 

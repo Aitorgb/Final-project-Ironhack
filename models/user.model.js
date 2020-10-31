@@ -44,6 +44,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     match: [DNI_PATTERN, 'Dni is invalid']
   },
+  razonSocial: {
+    type: String,
+  },
+  direccion: {
+    type: String,
+  },
   activation: {
     active: {
       type: Boolean,
