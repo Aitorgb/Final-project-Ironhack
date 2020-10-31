@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Comment = require('../models/comment.model')
-const Reviews = require('../models/review.model')
+const Comment = require('../models/comment.model');
+const Reviews = require('../models/review.model');
 
 const spaceSchema = new mongoose.Schema(
 	{
@@ -30,7 +30,7 @@ const spaceSchema = new mongoose.Schema(
 		image: [ String ],
 		services: {
 			type: [ String ],
-			enum : [
+			enum: [
 				'Gestion de agencias',
 				'Oficina Virtual',
 				'Recepción de emails',
@@ -64,230 +64,44 @@ const spaceSchema = new mongoose.Schema(
 				'Escáner'
 			]
 		},
-		 number: {
-		 	type: Number
-		 },
+		number: {
+			type: Number
+		},
 		schedule: {
-			monday : {
-				available: {
-					type: String,
-					enum: ['Mañana', 'Tarde', 'Todo el día', 'No disponible'],
-					default: ['No disponible']
-				}, 
-				checkInMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 8
-				},
-				checkInAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 20
-				},
+			day: {
+				type: [ String ]
 			},
-			tuesday : {
-				available: {
-					type: String,
-					enum: ['Mañana', 'Tarde', 'Todo el día', 'No disponible'],
-					default: ['No disponible']
-				},
-				checkInMorning: {
-					type: Number,
-					min: 00,
-					max: 23,
-					default: 08
-				},
-				checkInAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 20
-				},
+			available: {
+				type: String,
+				enum: [ 'Mañana', 'Tarde', 'Todo el día', 'No disponible' ]
 			},
-			wednesday : {
-				available: {
-					type: String,
-					enum: ['Mañana', 'Tarde', 'Todo el día', 'No disponible'],
-					default: ['No disponible']
-				},
-				checkInMorning: {
-					type: Number,
-					min: 00,
-					max: 23,
-					default: 08
-				},
-				checkInAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 20
-				},
+			checkInMorning: {
+				type: Number,
+				min: 0,
+				max: 23,
+				default: 8
 			},
-			thursday : {
-				available: {
-					type: String,
-					enum: ['Mañana', 'Tarde', 'Todo el día', 'No disponible'],
-					default: ['No disponible']
-				},
-				checkInMorning: {
-					type: Number,
-					min: 00,
-					max: 23,
-					default: 08
-				},
-				checkInAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 20
-				},
+			checkInAfternoon: {
+				type: Number,
+				min: 0,
+				max: 23,
+				default: 14
 			},
-			friday : {
-				available: {
-					type: String,
-					enum: ['Mañana', 'Tarde', 'Todo el día', 'No disponible'],
-					default: ['No disponible']
-				},
-				checkInMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 08
-				},
-				checkInAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 20
-				},
+			checkOutMorning: {
+				type: Number,
+				min: 0,
+				max: 23,
+				default: 14
 			},
-			saturday : {
-				available: {
-					type: String,
-					enum: ['Mañana', 'Tarde', 'Todo el día', 'No disponible'],
-					default: ['No disponible']
-				},
-				checkInMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 08
-				},
-				checkInAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 20
-				},
-			},
-			sunday : {
-				available: {
-					type: String,
-					enum: ['Mañana', 'Tarde', 'Todo el día', 'No disponible'],
-					default: ['No disponible']
-				},
-				checkInMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 08
-				},
-				checkInAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutMorning: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 14
-				},
-				checkOutAfternoon: {
-					type: Number,
-					min: 0,
-					max: 23,
-					default: 20
-				},
-			},
+			checkOutAfternoon: {
+				type: Number,
+				min: 0,
+				max: 23,
+				default: 20
+			}
 		},
 		price: {
-			type: [Number],
+			type: [ Number ],
 			required: true
 		},
 		bond: {

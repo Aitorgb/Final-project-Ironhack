@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    default: 'https://res.cloudinary.com/dbldxawid/image/upload/v1598365694/Kiui/user_lqfimt.png'
   },
   number: {
     type: Number
