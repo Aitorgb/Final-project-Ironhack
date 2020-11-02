@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Comment = require('../models/comment.model');
 const Reviews = require('../models/review.model');
+const HOURS = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/
 
 const spaceSchema = new mongoose.Schema(
 	{
@@ -25,7 +26,9 @@ const spaceSchema = new mongoose.Schema(
 				default: 'Point'
 			},
 			coordinates: [ Number ],
-			direction: String
+			direction: String,
+			extraDirection: String,
+			city: String
 		},
 		image: [ String ],
 		services: {
@@ -78,29 +81,13 @@ const spaceSchema = new mongoose.Schema(
 				type: String,
 				enum: [ 'Mañana', 'Tarde', 'Todo el día' ]
 			},
-			checkInMorning: {
-				type: Number,
-				min: 0,
-				max: 23,
-				default: 8
+			checkIn: {
+				type: String,
+				match: [HOURS, 'Hour is invalid']
 			},
-			checkInAfternoon: {
-				type: Number,
-				min: 0,
-				max: 23,
-				default: 14
-			},
-			checkOutMorning: {
-				type: Number,
-				min: 0,
-				max: 23,
-				default: 14
-			},
-			checkOutAfternoon: {
-				type: Number,
-				min: 0,
-				max: 23,
-				default: 20
+			checkOut: {
+				type: String,
+				match: [HOURS, 'Hour is invalid']
 			}
 		},
 		price: {
@@ -118,8 +105,7 @@ const spaceSchema = new mongoose.Schema(
 		quantity: {
 			type: Number,
 			default: 0
-		},
-		capacity: Number
+		}
 	},
 	{
 		timestamps: true,

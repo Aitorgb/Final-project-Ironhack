@@ -27,8 +27,8 @@ router.patch('/space/:id/comments', authMiddleware.isAuthenticated, commentContr
 router.get('/spaces', spaceController.spacesAll)
 router.get('/spaces/:search', spaceController.searchSpace)
 router.get('/space/:id', spaceController.viewDetail)
-router.post('/space/new', authMiddleware.isAuthenticated, upload.array('images'), spaceController.newSpace)
-router.delete('/space/:id', authMiddleware.isAuthenticated, spaceController.deleteSpace)
+router.post('/space/new', upload.array('image[]'), spaceController.newSpace)
+router.delete('/space/:id',authMiddleware.isAuthenticated, authMiddleware.isAuthenticated, spaceController.deleteSpace)
 router.patch('/space/:id', authMiddleware.isAuthenticated, spaceController.editSpace)
 
 router.post('/chat/:id', authMiddleware.isAuthenticated, chatController.createChat) //Crea chat
