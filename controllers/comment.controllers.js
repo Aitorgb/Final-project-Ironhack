@@ -10,7 +10,11 @@ module.exports.addComment = (req, res, next) => {
 		space: spaceId
 	});
 
-	comment.save().then((comment) => res.json(comment)).catch(next);
+	comment.save()
+		.then((comment) => res.status(200).json(comment))
+		.catch(e => {
+			next(createError(400, "Comment not created"))
+		});
 };
 
 module.exports.deleteComment = (req, res, next) => {
@@ -32,7 +36,6 @@ module.exports.editComment = (req, res, next) => {
 	const userId = req.session.user.id
 	const { text } = req.body
 	console.log(userId)
-
 	Comment.findOne({$and : [
 					{"_id" : spaceId },
 					{"user" : userId }

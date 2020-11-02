@@ -90,35 +90,41 @@ module.exports.viewDetail = (req, res, next) => {
 };
 
 module.exports.newSpace = (req, res, next) => {
+
+	console.log(req.files)
 	let body = req.body;
     body.user = req.session.user.id;
 	body.image = req.files ? req.files.map(file => file.url) : undefined
 	body.location = {
 		coordinates : body.coordinates,
-		direction : body.direction
+		direction : body.direction,
+		extraDirection : body.extraDirection,
+		city : body.city
 	}
-	const type = ['office', 'desk', 'meetingRoom', 'others']
+	body.schedule = {
+		day : body.day,
+		available : body.available,
+		checkIn : body.checkIn,
+		checkOut : body.checkOut
+	}
 
-	type.map(type => {
-		if (type in body) {
-			body[type] = {
-				quantity : body[type][0],
-				price : body[type][1],
-				duration : body[type][2],
-				capacity : body[type][3]
-			}
-		}
-	})
-	
 	delete body.coordinates;
 	delete body.direction;
+	delete body.checkIn;
+	delete body.checkOut;
+	delete body.day;
+	delete body.available;
+	delete body.city;
+	delete body.extraDirection;
 
-    Space.findOne({ title: body.title, 'location.coordinates': body.location.coordinates })
+    Space.findOne({ type: body.type, 'location.coordinates': body.location.coordinates })
         .then((space) => {
 		if (!space) {
 			const newSpace = new Space(body);
             newSpace.save()
-                .then((space) => res.status(201).json(space))
+                .then((space) => {
+					res.status(201).json(space)
+				})
                 .catch(e => next(createError(400, e)));
 		} else {
             next(createError(400, 'Space is repeat'))

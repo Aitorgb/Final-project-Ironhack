@@ -32,12 +32,6 @@ const reviewSchema = new mongoose.Schema(
 				max: 5,
 				default: 2
 			},
-			quality: {
-				type: Number,
-				min: 0,
-				max: 5,
-				default: 2
-			},
 			location: {
 				type: Number,
 				min: 0,
