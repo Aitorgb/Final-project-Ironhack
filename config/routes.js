@@ -36,14 +36,14 @@ router.get ('/chat/:id', authMiddleware.isAuthenticated, chatController.getChat)
 router.post('/addMessage/:id', authMiddleware.isAuthenticated, chatController.sendMessage) // envia mensajes
 router.get('/chat', authMiddleware.isAuthenticated, chatController.updateChat) // dice todos los chat que tu tienes
 
-router.post('space/:id/review', authMiddleware.isAuthenticated, reviewController.createReview) 
-router.delete('space/:id/review', authMiddleware.isAuthenticated, reviewController.deleteReview) 
-router.patch('space/:id/review', authMiddleware.isAuthenticated, reviewController.editReview) 
+router.post('/space/:id/review', reviewController.createReview) 
+router.delete('/space/:id/review', authMiddleware.isAuthenticated, reviewController.deleteReview) 
+router.patch('/space/:id/review', authMiddleware.isAuthenticated, reviewController.editReview) 
 
 
-router.get('booking/:id', authMiddleware.isAuthenticated, bookingController.booking) 
-router.post('booking/:id', authMiddleware.isAuthenticated, bookingController.newBooking) 
-router.delete('booking/:id', authMiddleware.isAuthenticated, bookingController.deleteBooking) 
+router.get('/booking/:id', authMiddleware.isAuthenticated, bookingController.booking) 
+router.post('/booking/:id', authMiddleware.isAuthenticated, bookingController.newBooking) 
+router.delete('/booking/:id', authMiddleware.isAuthenticated, bookingController.deleteBooking) 
 
 
 

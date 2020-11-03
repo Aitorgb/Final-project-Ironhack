@@ -5,12 +5,17 @@ const { param } = require('../config/routes');
 const { date } = require('faker');
 
 module.exports.createReview = (req, res, next) => {
-	const review = req.body;
+	const review = {
+		user: req.session.user.id,
+		space : req.params.id,
+		rating : req.body.review
+	}
+
+
 	const dateNow = new date.now();
 	const params = {
 		user: req.session.user.id,
 		space: req.params.id,
-		//    booking: req.params.id,
 	};
 
 	Booking.find(params)
