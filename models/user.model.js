@@ -102,6 +102,34 @@ userSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
 
+userSchema.virtual('comments', {
+	ref: 'Comment',
+	localField: '_id',
+	foreignField: 'user',
+	justOne: false
+});
+
+userSchema.virtual('space', {
+	ref: 'Space',
+	localField: '_id',
+	foreignField: 'user',
+	justOne: false
+});
+
+userSchema.virtual('bookings', {
+	ref: 'Booking',
+	localField: '_id',
+	foreignField: 'user',
+	justOne: false
+});
+
+userSchema.virtual('chat', {
+	ref: 'Chat',
+	localField: '_id',
+	foreignField: 'user',
+	justOne: false
+});
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

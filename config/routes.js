@@ -35,8 +35,10 @@ router.post('/chat/:id', authMiddleware.isAuthenticated, chatController.createCh
 router.get ('/chat/:id', authMiddleware.isAuthenticated, chatController.getChat) // te dice todos los mensajes de un chat en particular
 router.post('/addMessage/:id', authMiddleware.isAuthenticated, chatController.sendMessage) // envia mensajes
 router.get('/chat', authMiddleware.isAuthenticated, chatController.updateChat) // dice todos los chat que tu tienes
+router.get('/chatBetweenTwo/:id', authMiddleware.isAuthenticated, chatController.chatBetweenTwo) 
 
-router.post('/space/:id/review', reviewController.createReview) 
+
+router.post('/space/:id/review', authMiddleware.isAuthenticated, reviewController.createReview) 
 router.delete('/space/:id/review', authMiddleware.isAuthenticated, reviewController.deleteReview) 
 router.patch('/space/:id/review', authMiddleware.isAuthenticated, reviewController.editReview) 
 
