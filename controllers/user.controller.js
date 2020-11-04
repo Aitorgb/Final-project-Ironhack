@@ -7,13 +7,15 @@ const Space = require('../models/space.model')
 
 module.exports.login = (req, res, next) => {
   const {email, password} = req.body
+  
    if (!email || !password) {
     throw createError(400, "Missing credentials");
   }
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        throw createError(400, "wrong credentials invalid username or password");
+        res.json(400).json("wrong credentials invalid username or password")
+        //throw createError(400, "wrong credentials invalid username or password");
       } else {
         return user.checkPassword(password)
         .then((match) => {

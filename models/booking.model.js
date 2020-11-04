@@ -23,23 +23,9 @@ const bookingSchema = new mongoose.Schema(
 		price: {
 			type: [Number],
 		},
-		type: {
-			office: {
-				type: Number,
-				default: 0,
-			},
-			desk: {
-				type: Number,
-				default: 0,
-			},
-			meetingRoom: {
-				type: Number,
-				default: 0,
-			},
-			others: {
-				type: Number,
-				default: 0,
-			}
+		type: { 
+			String,
+			enum : ['office', 'desk', 'meetingRoom']
 		}
 	},
 	{
