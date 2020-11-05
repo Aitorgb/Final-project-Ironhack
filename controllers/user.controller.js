@@ -86,13 +86,26 @@ module.exports.activateUser = (req, res, next) => {
 		.catch((error) => next(error));
 };
 
+module.exports.upDateProfile = (req, res, next) => {
+  
+  User.findByIdAndUpdate(req.params.id, { $set : req.body.user})
+      .then (user => {
+        if (user) {
+          res.status(200).json(user)
+        } else {
+          res.status(400).json('Not modify')
+        }
+      })
+      .catch(next)
+}
+
 module.exports.showUser = (req, res, next) => {
 	const userId = req.params.id;
 
 	User.findById(userId)
 		.populate('space')
 		.populate('chat')
-		.populate('comments')
+    .populate('comments')
 		.populate('reviews')
 		.populate({
 			path: 'chat',
@@ -101,9 +114,17 @@ module.exports.showUser = (req, res, next) => {
 					createdAt: -1
 				}
 			},
-			populate: {
+			populate: [{
 				path: 'message'
-			}
+      },
+      {
+				path: 'owner'
+      },
+      {
+				path: 'user'
+      }
+    
+    ]
 		})
 		.populate({
 			path: 'comments',
@@ -115,6 +136,19 @@ module.exports.showUser = (req, res, next) => {
 			populate: {
 				path: 'user'
 			}
+    })
+    .populate({
+			path: 'space',
+			populate: [{
+				path: 'comments'
+      },
+      {
+				path: 'bookings'
+      },
+      {
+				path: 'reviews'
+      }]
+      
 		})
 		.populate({
 			path: 'reviews',

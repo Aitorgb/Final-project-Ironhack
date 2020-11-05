@@ -16,7 +16,8 @@ router.post('/logout', authMiddleware.isAuthenticated, userController.logout)
 router.post('/users', authMiddleware.isNotAuthenticated, upload.single('avatar'), userController.createUser)
 router.get('/activate/:token', authMiddleware.isNotAuthenticated, userController.activateUser);
 router.get('/user/:id', authMiddleware.isAuthenticated, userController.showUser)
-router.get('/user/:id/review', reviewController.userReviews) 
+router.get('/user/:id/review', reviewController.userReviews)
+router.patch('/user/:id', authMiddleware.isAuthenticated, upload.single('image'), userController.upDateProfile) 
 
 
 
@@ -28,7 +29,7 @@ router.get('/spaces', spaceController.spacesAll)
 router.get('/spaces/:search', spaceController.searchSpace)
 router.get('/space/:id', spaceController.viewDetail)
 router.post('/space/new', upload.array('image[]'), spaceController.newSpace)
-router.delete('/space/:id',authMiddleware.isAuthenticated, authMiddleware.isAuthenticated, spaceController.deleteSpace)
+router.delete('/space/:id',authMiddleware.isAuthenticated, spaceController.deleteSpace)
 router.patch('/space/:id', authMiddleware.isAuthenticated, spaceController.editSpace)
 
 router.post('/chat/:id', authMiddleware.isAuthenticated, chatController.createChat) //Crea chat
@@ -42,7 +43,7 @@ router.post('/space/:id/review', authMiddleware.isAuthenticated, reviewControlle
 router.delete('/space/:id/review', authMiddleware.isAuthenticated, reviewController.deleteReview) 
 router.patch('/space/:id/review', authMiddleware.isAuthenticated, reviewController.editReview) 
 
-router.post('/create-payment-intent', spaceController.pay)
+router.post('/stripe/charge', spaceController.pay)
 
 
 router.get('/booking/:id', authMiddleware.isAuthenticated, bookingController.booking) 
