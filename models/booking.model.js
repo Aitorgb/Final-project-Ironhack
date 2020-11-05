@@ -21,10 +21,10 @@ const bookingSchema = new mongoose.Schema(
 			required: true
 		},
 		price: {
-			type: [Number],
+			type: Number,
 		},
 		type: { 
-			String,
+			type: String,
 			enum : ['office', 'desk', 'meetingRoom']
 		}
 	},
@@ -36,9 +36,7 @@ const bookingSchema = new mongoose.Schema(
 	}
 );
 
-bookingSchema.methods.checkBooking = function(password) {
-	return bcrypt.compare(password, this.password);
-};
+
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

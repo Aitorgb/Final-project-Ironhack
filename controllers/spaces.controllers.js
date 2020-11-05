@@ -1,10 +1,10 @@
 const createError = require('http-errors');
-require('dotenv').config()
+require('dotenv').config();
 const Comment = require('../models/comment.model');
 const Space = require('../models/space.model');
 const Review = require('../models/review.model');
 const Booking = require('../models/booking.model');
-const stripe = require("stripe")(process.env.STRIKE);
+const stripe = require('stripe')(process.env.STRIKE);
 
 module.exports.spacesAll = (req, res, next) => {
 	Space.find()
@@ -27,9 +27,9 @@ module.exports.spacesAll = (req, res, next) => {
 };
 
 module.exports.searchSpace = (req, res, next) => {
-	const criteria = new RegExp(req.params.search, 'i');
+	
 
-	Space.find({ 'location.direction': { $text: { $search: criteria } } })
+	Space.find({ 'location.direction': { "$regex": req.params.search, "$options": "i" } } )
 		.populate('user')
 		.populate('reviews')
 		.populate({
@@ -124,20 +124,32 @@ module.exports.newSpace = (req, res, next) => {
 		}
 	});
 };
-module.exports.pay = (req, res) => {
-	const { pay } = req.body;
-	const payNow = async () => { 
-	
-	// Create a PaymentIntent with the order amount and currency
-	const paymentIntent = await stripe.paymentIntents.create({
-		amount: pay,
-		currency: 'ES'
-	});
-	res.send({
-		clientSecret: paymentIntent.client_secret
-	});
+
+module.exports.pay = async (req, res) => {
+	let { amount, id } = req.body;
+
+	amount = amount * 100;
+
+	try {
+		const payment = await stripe.paymentIntents.create({
+			amount: amount,
+			currency: 'EUR',
+			description: 'You work',
+			payment_method: id,
+			confirm: true
+		});
+		//console.log('stripe-routes.js 19 | payment', payment);
+		res.json({
+			message: 'Payment Successful',
+			success: true
+		});
+	} catch (error) {
+		//console.log('stripe-routes.js 17 | error', error);
+		res.json({
+			message: 'Payment Failed',
+			success: false
+		});
 	}
-	payNow()
 };
 
 module.exports.deleteSpace = (req, res, next) => {
