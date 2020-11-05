@@ -35,6 +35,10 @@ module.exports.logout = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
+	const user = req.body
+	user.name = user.firstName
+	delete user.firstName
+	
 	const user = new User({
 		...req.body,
 		avatar: req.file ? req.file.path : undefined
