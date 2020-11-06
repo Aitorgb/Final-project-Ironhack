@@ -94,10 +94,6 @@ const spaceSchema = new mongoose.Schema(
 			type: [ Number ],
 			required: true
 		},
-		bond: {
-			type: Number
-		},
-
 		type: {
 			type: [ String ],
 			enum: [ 'office', 'desk', 'meetingRoom' ]
