@@ -82,7 +82,7 @@ const scheduleDay = [ 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Saba
 const shift = [ 'Mañana', 'Tarde', 'Todo el día' ]
 
 const randomNumber = () => Math.floor(Math.random() * 5);
-const randomNum = Math.floor(Math.random() * 5);
+
 function getRandomDay(arr, n) {
 	var result = new Array(n),
 			len = arr.length,
@@ -145,11 +145,11 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 			lastName: faker.name.lastName(),
 			email: faker.internet.email(),
 			password: '123123123',
+			number: '616790551',
 			avatar: faker.image.avatar(),
-			nif: '03934546L',
 			createdAt: faker.date.past(),
 			razonSocial: faker.company.companyName(),
-			nif: faker.random.number(),
+			nif: `B-${faker.random.number(9999999)}`,
 			direccion: faker.address.direction(),
 		});
 		user.activation.active = true;
@@ -181,9 +181,10 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 							.slice(0, randomNumber() * 5),
 						createdAt: faker.date.past(),
 						schedule: {
-							day:  getRandomDay(scheduleDay, randomNum),
+							day:  getRandomDay(scheduleDay, randomNumber()),
 							available: shift[Math.floor(Math.random()*shift.length)],
-							
+							checkIn: '09:00',
+							checkOut: '20:00',
 						}
 					});
 					console.log(space);
@@ -198,32 +199,6 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 									text: faker.lorem.paragraph(),
 									createdAt: faker.date.past()
 								});
-
-								const booking = new Booking({
-									owner: userIds[Math.floor(Math.random() * userIds.length)],
-									user: userIds[Math.floor(Math.random() * userIds.length)],
-									space: space._id,
-									checkIn: faker.date.recent(),
-									checkOut: faker.date.recent(randomNumber() * -1),
-									type: {
-										office: {
-											quantity: Math.floor(space.type.office.quantity * Math.random())
-										},
-										desk: {
-											quantity: Math.floor(space.type.desk.quantity * Math.random())
-										},
-										meetingRoom: {
-											quantity: Math.floor(space.type.meetingRoom.quantity * Math.random())
-										}
-									}
-								});
-								const bookingType = booking.type;
-
-								bookingType.office.price = bookingType.office.quantity * space.type.office.price;
-								bookingType.desk.price = bookingType.desk.quantity * space.type.desk.price;
-								bookingType.meetingRoom.price = bookingType.meetingRoom.quantity * space.type.meetingRoom.price;
-						
-								booking.save();
 								c.save();
 							}
 						})
