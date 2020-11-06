@@ -77,8 +77,25 @@ const imageCoworking = [
 		'https://res.cloudinary.com/dpzqosy5b/image/upload/v1603129614/Modulo%203/cink_castellana_9_cc3oyc.jpg'
 	]
 ];
+const spaceType = ['office', 'desk', 'meetingRoom']
+const scheduleDay = [ 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo' ]
+const shift = [ 'Mañana', 'Tarde', 'Todo el día' ]
 
 const randomNumber = () => Math.floor(Math.random() * 5);
+const randomNum = Math.floor(Math.random() * 5);
+function getRandomDay(arr, n) {
+	var result = new Array(n),
+			len = arr.length,
+			taken = new Array(len);
+	if (n > len)
+			throw new RangeError("getRandom: more elements taken than available");
+	while (n--) {
+			var x = Math.floor(Math.random() * len);
+			result[n] = arr[x in taken ? taken[x] : x];
+			taken[x] = --len in taken ? taken[len] : len;
+	}
+	return result;
+}
 const time = [ 'hour', 'day', 'month', 'year' ];
 const services = [
 	'Gestion de agencias',
@@ -114,6 +131,7 @@ const services = [
 	'Escáner'
 ];
 
+
 const faker = require('faker');
 const Booking = require('../models/booking.model');
 const { fake } = require('faker');
@@ -123,12 +141,16 @@ const userIds = [];
 Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Review.deleteMany() ]).then(() => {
 	for (let i = 0; i < 20; i++) {
 		const user = new User({
-			name: faker.name.findName(),
+			name: faker.name.firstName(),
+			lastName: faker.name.lastName(),
 			email: faker.internet.email(),
 			password: '123123123',
 			avatar: faker.image.avatar(),
 			nif: '03934546L',
-			createdAt: faker.date.past()
+			createdAt: faker.date.past(),
+			razonSocial: faker.company.companyName(),
+			nif: faker.random.number(),
+			direccion: faker.address.direction(),
 		});
 		user.activation.active = true;
 
@@ -146,33 +168,23 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 						description: faker.lorem.paragraph(),
 						location: {
 							coordinates: [ faker.address.latitude(), faker.address.longitude() ],
-							direction: faker.address.city(0)
+							direction: faker.address.direction(),
+							city: facker.address.city()
 						},
 						image: imageCoworking[j],
-						type: {
-							office: {
-								quantity: randomNumber(),
-								price: randomNumber() * 20,
-								duration: time[randomNumber()],
-								capacity: randomNumber() * 5
-							},
-							desk: {
-								quantity: randomNumber(),
-								price: randomNumber() * 5,
-								duration: time[randomNumber()],
-								capacity: 2
-							},
-							meetingRoom: {
-								quantity: randomNumber(),
-								price: randomNumber() * 10,
-								duration: time[randomNumber()],
-								capacity: randomNumber()
-							}
-						},
+						number: faker.phone.phoneNumber(),
+						price: randomNumber() * 20,
+						quantity: randomNumber() * 5,
+						type: spaceType[Math.floor(Math.random()*spaceType.length)],
 						services: services
 							.sort(() => Math.random() - Math.random())
 							.slice(0, randomNumber() * 5),
-						createdAt: faker.date.past()
+						createdAt: faker.date.past(),
+						schedule: {
+							day:  getRandomDay(scheduleDay, randomNum),
+							available: shift[Math.floor(Math.random()*shift.length)],
+							
+						}
 					});
 					console.log(space);
 
