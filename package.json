@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start":"node app.js",
-    "dev":"nodemon app.js",
-    "seeds":"node ./bin/seeds"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seeds": "node ./bin/seeds"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "faker": "^4.1.0",
+    "helpers": "0.0.6",
     "http-errors": "^1.8.0",
     "mongoose": "^5.10.13",
     "morgan": "^1.9.1",
