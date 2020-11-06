@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "seeds": "node ./bin/seeds"
+    "start":"node app.js",
+    "dev":"nodemon app.js",
+    "seeds":"node ./bin/seeds"
   },
   "author": "",
   "license": "ISC",
