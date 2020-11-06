@@ -12,21 +12,25 @@ module.exports.createReview = (req, res, next) => {
 	}
 
 
-	const dateNow = new date.now();
+	const dateNow = new Date(2021, 1, 1);
 	const params = {
 		user: req.session.user.id,
 		space: req.params.id,
 	};
 
+
 	Booking.find(params)
 		.then((bookings) => {
-			if (!bookings) {
+			console.log('hola', bookings)
+			if (bookings.length === 0) {
 				throw createError(403, 'user doesn´t have enough permissions to proceed further');
 			} else {
-				const bookingPast = bookings.filter((booking) => booking.checkOut < dateNow);
+				const bookingPast = bookings.filter((booking) => booking.dates.some(date => date < dateNow));
 				if (bookingPast.length > 0) {
 					const newReview = new Review(review);
 					newReview.save().then((review) => res.status(200).json(review)).catch((e) => createError(400, e));
+				} else {
+					res.status(400).json('Not created')
 				}
 			}
 		})

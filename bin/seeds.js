@@ -118,7 +118,6 @@ const services = [
 	'Recepción de llamadas',
 	'Recepción paquetería',
 	'Secretaría',
-	'Proyector',
 	'Uso de Dirección',
 	'Niños permitidos',
 	'Coworking Visa',
@@ -150,7 +149,7 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 			createdAt: faker.date.past(),
 			razonSocial: faker.company.companyName(),
 			nif: `B-${faker.random.number(9999999)}`,
-			direccion: faker.address.direction(),
+			direccion: faker.address.streetAddress("###"),
 		});
 		user.activation.active = true;
 
@@ -168,12 +167,12 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 						description: faker.lorem.paragraph(),
 						location: {
 							coordinates: [ faker.address.latitude(), faker.address.longitude() ],
-							direction: faker.address.direction(),
-							city: facker.address.city()
+							direction: faker.address.streetAddress("###"),
+							city: faker.address.city()
 						},
 						image: imageCoworking[j],
-						number: faker.phone.phoneNumber(),
-						price: randomNumber() * 20,
+						number: '687463663',
+						price: randomNumber() * 20 + 30,
 						quantity: randomNumber() * 5,
 						type: spaceType[Math.floor(Math.random()*spaceType.length)],
 						services: services

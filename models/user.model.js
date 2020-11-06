@@ -47,8 +47,7 @@ const userSchema = new mongoose.Schema({
     type: Number
   },
   nif: {
-    type: String,
-    match: [DNI_PATTERN, 'Dni is invalid']
+    type: String
   },
   razonSocial: {
     type: String,
