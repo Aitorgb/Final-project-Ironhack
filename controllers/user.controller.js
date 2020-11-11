@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const Space = require('../models/space.model');
 
 module.exports.login = (req, res, next) => {
+
+	
 	const { email, password } = req.body;
 
 	if (!email || !password) {
@@ -20,6 +22,7 @@ module.exports.login = (req, res, next) => {
 					if (!match) {
 						throw createError(400, 'wrong credentials invalid username or password');
 					} else {
+						console.log('hola', user)
 						req.session.user = user;
 						res.json(user);
 					}
@@ -35,15 +38,15 @@ module.exports.logout = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-	const user = req.body
-	user.name = user.firstName
-	user.avatar = req.file ? req.file.path : undefined
-	delete user.firstName
-	
-
-	user
+	const user = new User({
+		...req.body,
+		avatar: req.file ? req.file.path : undefined
+	  });
+	  
+	  user
 		.save()
 		.then((user) => {
+			console.log(user)
 			nodemailer.sendValidationEmail(user.email, user.activation.token, user.name);
 			res.status(200).json({
 				message: 'Check your email for activation'

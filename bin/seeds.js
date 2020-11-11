@@ -186,7 +186,7 @@ Promise.all([ User.deleteMany(), Space.deleteMany(), Comment.deleteMany(), Revie
 							checkOut: '20:00',
 						}
 					});
-					console.log(space);
+				
 
 					space
 						.save()
