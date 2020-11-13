@@ -17,20 +17,18 @@ module.exports.booking = (req, res, next) => {
 module.exports.newBooking = (req, res, next) => {
 	const spaceId = req.params.id;
 	const { dayShift, dates } = req.body;
-  const dateNow = Date.now();
-  const booking = req.body.booking
-  booking.user = req.session.user.id
-  booking.space = spaceId
-  console.log(booking)
+	const dateNow = Date.now();
+	const booking = req.body.booking;
+	booking.user = req.session.user.id;
+	booking.space = spaceId;
+	console.log(booking);
 
 	Booking.find({ space: spaceId })
 		.then((bookings) => {
- 
 			if (bookings.length === 0) {
-        const newBooking = new Booking(booking);
+				const newBooking = new Booking(booking);
 				newBooking.save().then((booking) => res.status(200).json(booking)).catch((e) => createError(400, e));
-      } 
-      else {
+			} else {
 				const availability = bookings.filter((booking) => booking.dates.includes(dates));
 				if (availability.length === 0) {
 					const newBooking = new Booking(booking);
@@ -39,9 +37,9 @@ module.exports.newBooking = (req, res, next) => {
 						.then((booking) => res.status(200).json(booking))
 						.catch((e) => createError(400, e));
 				} else {
-          res.status(200).json({
-            messageError: 'Space is already booked'
-          })
+					res.status(200).json({
+						messageError: 'Space is already booked'
+					});
 				}
 			}
 		})
