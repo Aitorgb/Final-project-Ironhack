@@ -38,15 +38,18 @@ module.exports.logout = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
+	const userBody = req.body.user
+	userBody.name = userBody.firstName
+	delete userBody.step
+
 	const user = new User({
-		...req.body,
+		...userBody,
 		avatar: req.file ? req.file.path : undefined
 	  });
-	  
+	
 	  user
 		.save()
 		.then((user) => {
-			console.log(user)
 			nodemailer.sendValidationEmail(user.email, user.activation.token, user.name);
 			res.status(200).json({
 				message: 'Check your email for activation'
@@ -57,7 +60,9 @@ module.exports.createUser = (req, res, next) => {
 				throw createError(400, 'Wrong credentials');
 			} else if (error.code === 11000) {
 				// error when duplicated user
-				throw createError(400, 'User already exists');
+				res.status(400).json({
+					message: 'User already exists'
+				});
 			} else {
 				next(error);
 			}

@@ -16,21 +16,21 @@ const transport = nodemailer.createTransport(
 module.exports.sendValidationEmail = (email, activationToken, name) => {
     transport.sendMail({
 		to: email,
-        from: `Workspace Register <${user}>`,
+        from: `You work Register <${user}>`,
         subject: 'Verifica tu dirección de email',
         html: `
         <div style="margin-left: 9em;">
-            <img src="https://res.cloudinary.com/dbldxawid/image/upload/v1598465475/Kiui/Logo_Rosa_cgt1ws.png" alt="Kiui Black" width="100px" heigth="auto" style="margin: 10px 10px;">
+            <img src="https://res.cloudinary.com/dpzqosy5b/image/upload/v1605524326/final-project-Ironhack/free_horizontal_on_white_by_logaster_iisa6q.png" alt="You work!" width="100px" heigth="auto" style="margin: 10px 10px;">
             <h2>Verifica tu dirección de email</h2>
             <p>Hola ${name}</p>
-            <p>Gracias por registrarse en Workspace</p>
+            <p>Gracias por registrarse en You work</p>
             <p></p>
-            <p>Para acceder a tu cuenta To get access to your account please verify your email address by clicking the link below.</p>
+            <p>Para acceder a tu cuenta verifica tu email a traves del siguiente enlace.</p>
             <br><br>
             <a href="${host}/activate/${activationToken}" style="margin: 30px 30px; padding: 10px 20px; color: white; background-color: lightblue; border-radius: 5px;">Haz click aqui!</a>
             <br><br>
             <p>Un saludo,</br>
-            The Kiui App Team</p>
+            Equipo de You work</p>
         </div>
        `
    }, function(error, info){
