@@ -22,9 +22,8 @@ module.exports.login = (req, res, next) => {
 					if (!match) {
 						throw createError(400, 'wrong credentials invalid username or password');
 					} else {
-						console.log('hola', user)
 						req.session.user = user;
-						res.json(user);
+						res.status(200).json(user);
 					}
 				});
 			}
@@ -52,15 +51,15 @@ module.exports.createUser = (req, res, next) => {
 		.then((user) => {
 			nodemailer.sendValidationEmail(user.email, user.activation.token, user.name);
 			res.status(200).json({
-				message: 'Check your email for activation'
+				message: 'Mira tu correo para confirmar la cuenta'
 			});
 		})
 		.catch((error) => {
 			if (error instanceof mongoose.Error.ValidationError) {
 				throw createError(400, 'Wrong credentials');
 			} else if (error.code === 11000) {
-				// error when duplicated user
-				res.status(400).json({
+				
+				res.status(400).send({
 					message: 'User already exists'
 				});
 			} else {
@@ -79,7 +78,6 @@ module.exports.activateUser = (req, res, next) => {
 					.save()
 					.then((user) => {
 						res.status(200).json({
-							user,
 							message: 'Your account has been activated, log in below!'
 						});
 					})

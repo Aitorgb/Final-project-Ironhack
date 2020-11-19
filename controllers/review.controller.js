@@ -21,7 +21,6 @@ module.exports.createReview = (req, res, next) => {
 
 	Booking.find(params)
 		.then((bookings) => {
-			console.log('hola', bookings)
 			if (bookings.length === 0) {
 				throw createError(403, 'user doesn´t have enough permissions to proceed further');
 			} else {

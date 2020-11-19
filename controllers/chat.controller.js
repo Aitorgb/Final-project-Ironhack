@@ -95,19 +95,20 @@ module.exports.updateChat = (req, res, next) => {
 };
 
 module.exports.chatBetweenTwo = (req, res, next) => {
+	console.log(req.session.user)
 	const user = req.session.user.id;
 	const userId = req.params.id;
-	console.log(user);
-	console.log(userId);
 
 	Chat.find({
 		$or: [ { owner: req.session.user.id, user: userId }, { owner: userId, user: req.session.user.id } ]
 	})
 		.populate('message')
 		.then((chats) => {
+			console.log(chats)
 			if (chats.length > 0) {
 				res.status(200).json(chats);
 			} else {
+				console.log('hoasñdfasdñfkjasdflk')
 				res.status(200).json(null);
 			}
 		})
