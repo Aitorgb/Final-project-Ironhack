@@ -133,6 +133,12 @@ userSchema.virtual('chat', {
 	foreignField: 'user',
 	justOne: false
 });
+userSchema.virtual('chatOwner', {
+	ref: 'Chat',
+	localField: '_id',
+	foreignField: 'owner',
+	justOne: false
+});
 
 const User = mongoose.model('User', userSchema);
 

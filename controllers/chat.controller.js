@@ -95,7 +95,6 @@ module.exports.updateChat = (req, res, next) => {
 };
 
 module.exports.chatBetweenTwo = (req, res, next) => {
-	console.log(req.session.user)
 	const user = req.session.user.id;
 	const userId = req.params.id;
 
@@ -104,11 +103,11 @@ module.exports.chatBetweenTwo = (req, res, next) => {
 	})
 		.populate('message')
 		.then((chats) => {
-			console.log(chats)
+
 			if (chats.length > 0) {
+				
 				res.status(200).json(chats);
 			} else {
-				console.log('hoasñdfasdñfkjasdflk')
 				res.status(200).json(null);
 			}
 		})

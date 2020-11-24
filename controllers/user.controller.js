@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 const Space = require('../models/space.model');
 
 module.exports.login = (req, res, next) => {
-
-	
 	const { email, password } = req.body;
 
 	if (!email || !password) {
@@ -37,16 +35,16 @@ module.exports.logout = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-	const userBody = req.body.user
-	userBody.name = userBody.firstName
-	delete userBody.step
+	const userBody = req.body.user;
+	userBody.name = userBody.firstName;
+	delete userBody.step;
 
 	const user = new User({
 		...userBody,
 		avatar: req.file ? req.file.path : undefined
-	  });
-	
-	  user
+	});
+
+	user
 		.save()
 		.then((user) => {
 			nodemailer.sendValidationEmail(user.email, user.activation.token, user.name);
@@ -58,7 +56,6 @@ module.exports.createUser = (req, res, next) => {
 			if (error instanceof mongoose.Error.ValidationError) {
 				throw createError(400, 'Wrong credentials');
 			} else if (error.code === 11000) {
-				
 				res.status(400).send({
 					message: 'User already exists'
 				});
@@ -90,17 +87,16 @@ module.exports.activateUser = (req, res, next) => {
 };
 
 module.exports.upDateProfile = (req, res, next) => {
-  
-  User.findByIdAndUpdate(req.params.id, { $set : req.body.user})
-      .then (user => {
-        if (user) {
-          res.status(200).json(user)
-        } else {
-          res.status(400).json('Not modify')
-        }
-      })
-      .catch(next)
-}
+	User.findByIdAndUpdate(req.params.id, { $set: req.body.user })
+		.then((user) => {
+			if (user) {
+				res.status(200).json(user);
+			} else {
+				res.status(400).json('Not modify');
+			}
+		})
+		.catch(next);
+};
 
 module.exports.showUser = (req, res, next) => {
 	const userId = req.params.id;
@@ -108,7 +104,7 @@ module.exports.showUser = (req, res, next) => {
 	User.findById(userId)
 		.populate('space')
 		.populate('chat')
-    .populate('comments')
+		.populate('comments')
 		.populate('reviews')
 		.populate({
 			path: 'chat',
@@ -117,17 +113,36 @@ module.exports.showUser = (req, res, next) => {
 					createdAt: -1
 				}
 			},
-			populate: [{
-				path: 'message'
-      },
-      {
-				path: 'owner'
-      },
-      {
-				path: 'user'
-      }
-    
-    ]
+			populate: [
+				{
+					path: 'message'
+				},
+				{
+					path: 'owner'
+				},
+				{
+					path: 'user'
+				}
+			]
+		})
+		.populate({
+			path: 'chatOwner',
+			options: {
+				sort: {
+					createdAt: -1
+				}
+			},
+			populate: [
+				{
+					path: 'message'
+				},
+				{
+					path: 'owner'
+				},
+				{
+					path: 'user'
+				}
+			]
 		})
 		.populate({
 			path: 'comments',
@@ -139,19 +154,20 @@ module.exports.showUser = (req, res, next) => {
 			populate: {
 				path: 'user'
 			}
-    })
-    .populate({
+		})
+		.populate({
 			path: 'space',
-			populate: [{
-				path: 'comments'
-      },
-      {
-				path: 'bookings'
-      },
-      {
-				path: 'reviews'
-      }]
-      
+			populate: [
+				{
+					path: 'comments'
+				},
+				{
+					path: 'bookings'
+				},
+				{
+					path: 'reviews'
+				}
+			]
 		})
 		.populate({
 			path: 'reviews',
@@ -161,6 +177,7 @@ module.exports.showUser = (req, res, next) => {
 		})
 		.then((user) => {
 			if (user) {
+				user.chat = user.chat.concat(user.chatOwner);
 				res.status(200).json(user);
 			} else {
 				throw createError(404, 'Space not found');
