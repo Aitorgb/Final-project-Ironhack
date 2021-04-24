@@ -74,6 +74,7 @@ module.exports.activateUser = (req, res, next) => {
 				user
 					.save()
 					.then((user) => {
+						res.redirect('http://you-work-react.herokuapp.com/login');
 						res.status(200).json({
 							message: 'Your account has been activated, log in below!'
 						});
